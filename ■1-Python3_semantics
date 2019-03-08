@@ -15,3 +15,16 @@
     x="else"
     print(y)
     
+  • Python中的一切都是物件(object)，物件是一個包含屬性(attribute)和方法(method)的實體。屬性和方法則透過.來訪問，
+    如append是一個方法，會新增元素，透過.來訪問X
+    x=[1,2,3]
+    x.append(100)
+    print(x)
+    
+    x.is_integer()  # 判斷x是否為整數
+    
+    y=4.5
+    print(y.real,"+",y.imag,"i")    # real和imag是一種屬性，透過.來訪問y
+    
+  • 上述提及Python一切都是物件，表示連屬性跟方法也都是物件
+    type(is_integer)    #type顯示類別
