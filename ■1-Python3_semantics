@@ -28,3 +28,5 @@
     
   • 上述提及Python一切都是物件，表示連屬性跟方法也都是物件
     type(is_integer)    #type顯示類別
+
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第4章
