@@ -1,0 +1,37 @@
+■列表推導(list comprehension)
+
+  □基礎列表推導
+  
+    • 列表推導是將⼀個冗⻑的迴圈列表組成語句，壓縮為⼀⾏簡短易讀程式碼的簡單⽅法
+      L = []
+      for n in range(12):
+          L.append(n**2)
+          L
+    
+      與上面等價的列表推導如下所示
+      [n**2 for n in range(12)]
+      
+      列表推導的語法：[expr for var in iterable]
+      expr是任意合法的表達式；var是變數名；itervable是可迭代的Python物件
+      
+ □多重迭代
+  
+    • 有時候可能需要不只一個值建立列表，此時只要增加另一個for表達式即可
+      [(i, j) for i in range(2) for j in range(3)]
+      
+ □條件控制迭代
+  
+    • 可以透過在表達式尾部增加判斷語句，進一步控制迭代的條件。
+      [val for val in range(20) if val % 3 > 0]
+      
+ □其他類型推導
+  
+    • 集合推導
+      {a % 3 for a in range(1000)}
+    • 字典推導
+      {n:n**2 for n in range(6)}
+    • 產生器表達式（generator expression）基本上和列表推導沒有什麼不同，區別僅僅在於產⽣器表達式是按需產⽣對
+      象，⽽列表推導是⼀次產⽣全部物件。
+      (n**2 for n in range(12))
+     
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第12章
