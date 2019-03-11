@@ -1,0 +1,102 @@
+■迭代器(iterator)
+
+  □遍歷列表
+  
+    • 使用內建函式iter檢查是否包含一個迭代器街口(iterator interface)
+      iter([2, 4, 6, 8, 10])
+      
+    • 這個iter物件是⼀個容器，讓我們能夠訪問下⼀個物件（只要它是合法的）。可以通過內建的 next 函式檢視：
+      I = iter([2, 4, 6, 8, 10])
+      print(next(I))
+      print(next(I))
+      
+  □不總是列表的列表:range()
+  
+    • range不是回傳一個列表，而是回傳一個特殊的range物件
+      range(10)
+      iter(range(10))     #range具有迭代器介面
+      
+    • 迭代的好處是整個列表沒有明確地完成建立，可以節省系統記憶體，如下我們不需要真的建立全部的1萬億個值
+      N = 10 ** 12
+      for i in range(N):
+          if i >= 10: break
+          print(i, end=', ')
+          
+      Python的itertools套件中的count()，功能為無窮range
+      from itertools import count
+      
+      for i in count():
+            if i >= 10:
+                break
+            print(i, end=', ')
+            
+ □實用迭代器介紹
+  
+   • enumerate
+     通常迭代過程需要迭代陣列的值，還要同步對索引進行追蹤
+     L =[2, 4, 6, 8, 10]
+     for i in range((L)):
+        print(i, L(i))
+        
+     以上可透過enumerate簡潔化程式碼
+     for i,val in enumerate(L):
+        print(i, val)
+        
+    • zip
+      另外一些情況，需要對多個列表進行迭代
+      L = [2, 4, 6, 8, 10]
+      R = [3, 6, 9, 12, 15]
+      for lval, rval in zip(L, R):
+          print(lval, rval)       #任意數量的可迭代物件都可被鏈在⼀起，其中最短的那個列表將決定整個 zip 迭代器的⻑度。
+          
+   • map及filter
+      map 迭代器接受⼀個函式，並將它套⽤到迭代器中每⼀個值
+      square = lambda x: x ** 2
+      for val in map(square, range(10)):
+          print(val, end=' ')
+          
+      filter 迭代器看上去類似，但它只保留可以讓過濾函式為真的值
+      is_even = lambda x: x % 2 == 0
+      for val in filter(is_even, range(10)):
+          print(val, end=' ')
+          
+   • 迭代器作為函式參數
+   
+     *args 語法不僅僅適⽤於序列，同樣適⽤於任意迭代器
+     print(*range(10))
+     
+     我們可以將之前的 map 例⼦⽤⼀個技巧整合進下⾯的函式呼叫
+     print(*map(lambda x: x ** 2, range(10)))
+     
+     使⽤ 這個技 巧，我們 可以 回 答在 Python 初學 者 論壇 上⼀個 老⽣常 談的 問 題：為 什
+     麼 Python 中沒有⼀個 unzip() 函數恰好執⾏ zip() 函數相反的操作呢？如果你把⾃⼰鎖在
+     ⼀個漆⿊的地⽅然後思考⼀會兒這個問題，你可能會意識到與 zip() 相反的函數還是 zip()！
+     理解這個問題的關鍵在於 zip() 可以連結任意數量的迭代器或者序列。     
+     L1 = (1, 2, 3, 4)
+     L2 = ('a', 'b', 'c', 'd')
+     
+     z = zip(L1, L2)
+     print(*z)
+     
+     z = zip(L1, L2)
+    new_L1, new_L2 = zip(*z)
+    print(new_L1, new_L2)
+
+   • 專用迭代器：itertools
+   
+      itertools.permutations 函式在一個列表的全排(full permutation)中進行迭代
+      from itertools import permutations
+      p = permutations(range(3))
+      print(*p)
+      
+      itertools.combinations 函式在⼀個列表中將所有不同的 N 組合中進⾏迭代
+      from itertools import combinations
+      c = combinations(range(4), 2)
+      print(*c)
+      
+      product這個迭代器對兩個或多個可迭代物件進⾏兩兩配對(實際上是求兩個或多個集合的笛卡爾積（Cartesian Product）) ，最終產⽣⼀個集合進⾏迭代
+      from itertools import product
+      p = product('ab', range(3))
+      print(*p)
+
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第11章
