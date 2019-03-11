@@ -1,0 +1,90 @@
+■debug
+
+  □ coding時遇到錯誤通常可分為3大類
+    語法錯誤（syntax error），程式碼不符合程式規定的語法。
+    執行時錯誤（runtime error），可能是由於使用者輸入錯誤導致。
+    語意錯誤（semantic error），可能是邏輯上的錯誤，執行並沒有問題，一般較難追蹤與修改。
+    
+  □ 執⾏時錯誤。以下為常見的錯誤：
+    print(Q)     #使用未定義的變數
+    1 + 'abc'    #使用未定義的操作
+    2 / 0)       #嘗試數學上不合法計算
+    L[1,2,3]     #嘗試訪問不存在的元素
+    L[1000]
+   
+  □ 捕獲異常：try 和 except。捕獲運行時異常的工具是try與except。
+      try:                                # 當一個錯誤在try語句中發生，之後except語句才會被執行
+          print("let's try something:")
+          x = 1 / 0    # ZeroDivisionError
+      except:
+          print("something bad happened!")
+
+
+      def safe_divide(a, b):              # 當輸入呈現被除零異常時，將會進行捕獲，只能捕獲被除零異常
+          try:
+             return a / b
+          except ZeroDivisionError:
+             return 1E100
+
+      safe_divide(1, 0)
+      safe_divide(1, '2')
+      
+  □ 投擲異常：raise。可透過raise語句自己投擲異常。
+      raise RuntimeError("my error message")
+      
+      自定義的fibonacci 函式，潛在問題是輸入負數，所以我們可以投擲ValueError("N must be non-negative")，
+      告訴使用者輸入一個負數是不被接受的。
+      def fibonacci(N):
+          if N < 0:
+              raise ValueError("N must be non-negative")
+          L = []
+          a, b = 0, 1
+          while len(L) < N:
+              a, b = b, a + b
+              L.append(a)
+          return L
+          
+      fibonacci(-10)  
+      
+      現在使用者能夠確切知道甚麼輸入是無效的，可用try...except來處理
+      N = -10
+      try:
+          print("trying this...")
+          print(fibonacci(N))
+      except ValueError:
+          print("Bad value: need to do something else")
+          
+   □ 深入探究異常
+     
+    • 訪問錯誤資訊，在try...except語句中，處理錯誤信息本身，可以使用as關鍵字
+      try:
+          x = 1 / 0
+      except ZeroDivisionError as err:
+          print("Error class is: ", type(err))
+          print("Error message is:", err)
+          
+    • 定義自定義異常，除了內建異常型別外，可以透過類別繼承來自定義異常，定義一個特殊的ValueError。
+        class MySpecialError(ValueError):
+            pass
+        raise MySpecialError("here's the message")
+        
+      這將允許你使⽤只能捕獲此類別錯誤的 try...except 區塊。
+        try:
+              print("do something")
+              raise MySpecialError("[informative error message here]")
+        except MySpecialError:
+              print("do something else")
+              
+   □ try...except...else...finally
+      
+      除了try...except之外，也可以使用try...except...else...finally進一步調整程式碼的異常處理。
+      try:
+          print("try something here")
+      except:
+          print("this happens only if it fails")
+      else:
+          print("this happens only if it succeeds")
+      finally:
+          print("this happens no matter what")
+          
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第6章   
