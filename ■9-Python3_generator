@@ -1,0 +1,130 @@
+■generator
+
+  □產⽣器表示式
+  
+    • 列表推導使⽤⽅括號，⽽產⽣器表⽰式使⽤圓括號
+      [n ** 2 for n in range(12)]  #典型的列表推導
+      (n ** 2 for n in range(12))  #典型的產生器表示式
+      
+    • 注意：直接輸出產⽣器表達式並不會列印出內容。要列印出產⽣器表達式產⽣的全部內容
+      的⼀個⽅法是通過向 list 產⽣器傳遞參數
+      list[(n ** 2 for n in range(12))]
+      
+    • 列表是值的集合，⽽產⽣器是產⽣值的⽅法
+      當你建立⼀個列表的時候，你實際上在產⽣⼀個數值的集合，並且需要花費⼀定的記憶體開銷。
+      當你建立⼀個產⽣器的時候，你並沒有建立⼀個數值的集合，⽽是建立了⼀個產⽣這些數值的⽅法。
+      這兩者都具有相同的迭代器介⾯：
+      L = [n ** 2 for n in range(12)]      #列表推導
+      for val in L:
+          print(val, end=' ')
+          
+      G = (n ** 2 for n in range(12))     #產生器表示式
+      for val in G:
+          print(val, end=' ')
+          
+      區別是：產⽣器表達式並不會在數值被需要之前計算出它們。這並不僅僅可以提⾼記憶體效率，
+      也能提⾼計算效率！這也意味著⼀個列表的⼤⼩受到可⽤記憶體的限制，⽽產⽣器表達式的⼤⼩是無限的！
+      
+    • 我們可以透過itertools中定義的count迭代器建立一個無限的產生器表示式
+      from itertools import count
+      count()
+      
+      for i in count():
+          print(i, end=' ')
+          if i >= 10: break
+    
+    • 另一個例子
+      factors = [2, 3, 5, 7]
+      G = (i for i in count() if all(i % n > 0 for n in factors))
+      for val in G:
+          print(val, end=' ')
+          if val > 40: break
+          
+    • 列表可以被迭代多次，產生器表示式是一次性的
+      我們可以直接對⼀個列表進⾏如下操作
+      L = [n ** 2 for n in range(12)]
+      for val in L:
+          print(val, end=' ')
+      print()
+      
+      for val in L:
+          print(val, end=' ')
+    
+      另⼀⽅⾯，產⽣器表⽰式在⼀次迭代後就被⽤盡
+      G = (n ** 2 for n in range(12))
+      list(G)
+      list(G)
+      
+      這個特性可以變得非常實⽤，因為這意味著迭代可以被停⽌和繼續
+      G = (n**2 for n in range(12))
+      for n in G:
+          print(n, end=' ')
+          if n > 30: break
+          
+      print("\ndoing something in between")
+      
+      for n in G:
+           print(n, end=' ')
+           
+      這個特性在對硬碟上的資料檔案集合進⾏處理時非常實⽤，意味著我們可以非常輕鬆地批量處理資料，
+      讓產⽣器負責追蹤那些你尚未處理的區塊。
+      
+   □產⽣器函式：關鍵字yield
+    在之前的章節中我們看到了列表推導是建立相對簡單的列表的最佳途徑，⽽常規的 for 循環在更加複雜的情況下更為合適。
+    對於產⽣器表達式來說這也是成立的，我們可以通過產⽣器函式yield 語句來建立更加複雜的產⽣器。
+    我們有兩種方式組成同一個列表：
+    L1 = [n ** 2 for n in range(12)]
+    
+    L2 = []
+    for n in range(12):
+        L2.append(n ** 2)
+        
+    print(L1)
+    print(L2)
+    
+    同樣地，我們也有兩種方式組等價的產生器：
+    G1 = (n ** 2 for n in range(12))
+    
+    def gen():
+        for n in range(12):
+            yield n ** 2
+            
+    G2 = gen()
+    print(*G1)
+    print(*G2)
+    
+    ⼀個產⽣器函式是這樣的：它不使⽤ return 回傳⼀個值（僅回傳⼀次），⽽是使⽤ yield 來產⽣⼀個包含（可能是無窮多的）數值的序列。
+    和產⽣器表達式中⼀樣，在部分迭代(兩次迭代的中間，此時產⽣器並沒有被從頭到尾執⾏完，故稱部分迭代)的間隔中產⽣器的狀態得到保留。
+    但是如果我們需要產⽣器的⼀個全新的副本，我們只需要簡單地重新呼叫那個函式即可。
+    
+  □case：質數產生器
+  
+    產⽣⼀個包含候選數值的列表
+    L = [n for n in range(2, 40)]
+    print(L)
+    
+    對於候選數值序列的第⼀個值，移除它的倍數
+    L = [n for n in L if n == L[0] or n % L[0] > 0]
+    print(L)
+    
+    對於候選數值序列的第⼆個值，移除它的倍數
+    L = [n for n in L if n == L[1] or n % L[1] > 0]
+    print(L)
+    
+    對於候選數值序列的第三個值，移除它的倍數
+    L = [n for n in L if n == L[2] or n % L[2] > 0]
+    print(L)
+    
+    如果我們不斷在⼀個⾜夠⼤的列表上重複這個過程⾜夠多次，我們就能產⽣⾜夠多我們需要的質數。
+    讓我們把計算的邏輯封裝成為⼀個產⽣器表⽰式：
+    
+    def gen_primes(N):
+        """Generate primes up to N"""
+        primes = set()
+        for n in range(2, N):
+            if all(n % p > 0 for p in primes):
+               primes.add(n)
+               yield n
+    print(*gen_primes(100))
+   
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第12章
