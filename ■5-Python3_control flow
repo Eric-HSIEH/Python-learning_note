@@ -1,0 +1,51 @@
+■control flow
+
+  •if-elif-else，條件判斷，可依需要任意配置elif的數量
+    x = 15
+    
+    if x == 0:
+        print(x)
+    elif x > 0:
+        print(x)
+    elif x < 0:
+        print(x)
+    else:
+        print(x)
+        
+  •for，重複執行的迴圈，in右邊的物件為迭代器，為一個序列
+    for N in [2,3,5,7]
+        print(N, end=" ")
+        
+    for i in range(10)          #迭代器最常用的是range()
+       print(i, end=" ")
+       
+    list[range(5,10)]
+    list[range(0,10,2)]
+    
+ •while，保持迴圈直到不再滿足某種條件
+    i = 0
+    while i < 10:
+      print(i, end=" ")
+      i = i + 1
+      
+ •break跳出整個迴圈；continue跳出當前迴圈，進入下一個迭代中
+    •while True迴圈，一直迴圈直到遇到一個跳出語句
+      a, b = 0, 1
+      amax = 100
+      L = []
+
+      while True:
+        (a, b) = (b, a + b)
+        if a < amax:          #當a=amax時跳出整個迴圈
+              break     
+        L.append(a)
+
+      print(L)  
+
+
+      for n in range(20):
+          if n/2 == 0:        #當n/2==0時跳過當次迴圈
+             continue
+          print(n, end=" ")
+                
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第8章           
