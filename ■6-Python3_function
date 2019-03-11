@@ -1,0 +1,46 @@
+■function
+
+  • 使用函式。函示是有名稱的程式碼，括弧內是參數，參數可用名子指定，如下的sep：
+    print(1,2,3,sep="--")
+    
+  • 定義函式。使用def來定義自己的函示，如下使用def自定義斐波那契數列的函示：
+    def fibonacci(N, a = 0, b = 1):             #a=0, b=1表示我們自己設定的預設參數值，若沒有輸入a,b，則預設分別為0,1
+            L[]
+            a,b= 0,1
+            while len(L) < N:
+              a, b = b, a + b
+              L.append(a)
+            return L
+    fibonacci(10)
+      
+      • Python可以返回任何Python的物件，無論是簡單物件還是複合物件，例如多個回傳值會被簡單地放入一個用逗號分隔的Tuple
+        def real_imag_conj(val)
+            return val.real, val.imag, val.conjugate()
+            
+        r, i, c = real_imag_conj(3 + 4j)
+        print(r, i, c)
+        
+   • 可變參數。若不想要自己指定使用者會輸入多少參數到函式中，可以使用*args、**kwargs
+     def catch_all(*args, **kwargs):      # *表示將其展開為列表； **表示將其展開為字典
+         print("args =", args)
+         print("kwargs = ", kwargs) 
+         
+     catch_all(1, 2, 3, a=4, b=5)   
+     catch_all('a', keyword=2)
+     
+   • 匿名(Lambda)函式。定義更為短小的一次性函式。
+     add = lambda x, y: x + y
+     add(1, 2)
+     以上等同於：
+     def add(x, y):
+        return x + y
+       
+      • 需要這種語法的原因是，若我們有一組資料存放於字典組成的列表中，想要對他們排序，但字典不可排序。
+        data = [{'first':'Guido', 'last':'Van Rossum', 'YOB':1956},
+                    {'first':'Grace', 'last':'Hopper', 'YOB':1906},
+                    {'first':'Alan', 'last':'Turing', 'YOB':1912}]
+        此時我們可以定義一個key函式，只要給他一個項，它就可以回傳排序所依據的鍵。
+        sorted(data, key=lambda item: item['first']    #根據名子排序
+        sorted(data, key=lambda item: item['YOB'])     #根據出生日期排序
+        
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第9章   
