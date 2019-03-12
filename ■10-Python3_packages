@@ -1,0 +1,34 @@
+■模組與套件(packages)
+
+  □匯入模組：import 語句
+  
+    • 明確模組匯入。通過命名空間加.連結某個具體的內容，如使用內建math模組
+      import math
+      math.cos(math.pi)
+      
+    • 明確模組匯入並取別名。透過import...as...
+      import numpy as np
+      np.cos(np.pi)
+      
+    • 明確匯入模組內容。如果只想導入一些特定的項目，可透過from...import...
+      from math import cos,pi
+      cos(pi)
+      
+  □匯入Python標準函式庫
+  
+    • os 和 sys：與作業系統互動的⼯具，包括檔案⽬錄間的巡覽和執⾏ shell 命令。
+    • math 和 cmath：數學功能和對實數和複數的操作。
+    • itertools：使⽤迭代器和產⽣器的⼯具。
+    • functools：函數語⾔程式設計的⼯具。
+    • random：產⽣隨機數的⼯具。
+    • pickle：物件序列化的⼯具：儲存物件或者從磁碟中讀取物件。
+    • json 和 csv：讀取 JSON 格式和 CSV 格式檔案的⼯具。
+    • urllib: 進⾏ HTTP 和其他網路請求的⼯具。
+    
+  □匯入第三方模組
+  
+    • 第三方模組的生態系統使得Python十分易用，這些模組可以像內建模組一樣被匯入，只要在系統已經安裝過了，
+      透過$ pip install+套件名稱，如想安裝supersmoother
+      $ pip install supersmoother
+
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第13章
