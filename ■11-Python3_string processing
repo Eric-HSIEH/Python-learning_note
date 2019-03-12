@@ -1,0 +1,38 @@
+■字串處理(string processing)
+
+  □定義字串
+  
+    • x = "abc"         # 可用雙引號定義
+    • x = 'abc'         # 也可用單引號定義
+    • x = """           # 可用三重引號跨行定義字串
+      abc
+      xyz
+      """
+      
+  □簡易字串操作
+  
+    •字串格式化:大小寫轉換
+     fox = "bHkloY"
+     fox.upper()      #全部字元轉成大寫
+     fox.lower()      #全部字元轉成小寫
+     fox.title()      #首字轉成大寫
+     fox.capitalize   #每個字詞的首字轉成大寫
+     fox.swapacase    #將大小寫顛倒
+     
+    •字串格式化:新增和刪除空格
+     line="      adf     "  
+     line.strip()       #刪除前後的空格
+     line.rstrip()      #刪除右邊的空格
+     line.lstrip()      #刪除左邊的空格
+     
+     num="00000345"
+     num.strip("0")     #刪除特定字元
+     
+     line = "this is the content"
+     line.center(30)      #產生一定數量的空格，並中心對齊一個給定的字串
+     line.ljust(30)       #產生一定長度的空格並左對齊
+     line.rjust(30)       #產生一定長度的空格並右對齊
+     "345".rjust(10,"0")  #能以任意字元填充空格
+     "345".zfill(10)      #在左邊填充一定數量的0
+     
+     
