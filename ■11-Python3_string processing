@@ -43,9 +43,9 @@
      
    •查詢和替換⼦字串
     line = 'the quick brown fox jumped over a lazy dog'
-    line.find('fox')      #查詢子字串在字串中出現的索引值，若搜尋不到子字串，會回傳-1
-    line.index('fox')     #查詢子字串在字串中出現的索引值，若搜尋不到子字串，會回傳ValueError
-    line.rfind('fox')     #從尾部往前查詢子字串在字串中出現的索引值
+    line.find('fox')      #查詢子字串在字串中出現的索引，若搜尋不到子字串，會回傳-1
+    line.index('fox')     #查詢子字串在字串中出現的索引，若搜尋不到子字串，會回傳ValueError
+    line.rfind('fox')     #從尾部往前查詢子字串在字串中出現的索引
     
     line.endswith('dog')         #檢查字串尾部的子字串
     linie.startswith('fox')      #檢查字串頭部的子字串
@@ -79,16 +79,68 @@
      "pi = {0:.3f}".format(pi)    #數字的插入，0代表要插入的參數的索引，:代表後面要跟著格式化的程式碼，
                                   .3f代表需要的精度資訊，小數點後保留3位小數的浮點數
                                   
-  □使用正則表示式靈活地匹配字串模式
+  □使用正則表達式靈活地匹配字串模式
   
-    •正則表達式。Python ⽀援正則表⽰式的介⾯存放在內建的 re 模組中
+    •正則表達式。Python ⽀援正則表達式的介⾯存放在內建的 re 模組中
      line = 'the quick brown fox jumped over a lazy dog'
      
+    •正則表達式的spilt()
+     我們編譯一個正則表達式，然後用它來分割字符串，和Python的spilt()一樣，返回了一個包含所有空格之間的子字串的列表。
      import re
      regex = re.compile('\s+')    
      regex.split(line) 
      #\s是一個特殊的字元，匹配所有空白字元(包含空格、TAB字元、換行符號等)，+指名它在實體出現一次或多次。
-      上述正則表⽰式匹配了任何包含⼀個或多個空格的⼦串。
+       
+    •正則表達式的match()，會回傳一個字串的開頭是否匹配了模式串
+     for s in [" ", "abc ", " abc"]:
+         if regex.match(s):
+             print(repr(s), "matches")
+         else:
+             print(repr(s), "does not match")
+              
+    •正則表示式的regex.search()，類似str.index()、str.find()，會搜尋子字串在字串中的索引
+     line = 'the quick brown fox jumped over a lazy dog'
+     regex = re.compile('fox')
+     match = regex.search(line)
+     match.start()
+      
+    •正則表達式的regex.sub()，類似str.replace()，會以第1個參數替換子字串
+     regex.sub('BEAR', line)
+      
+  □一個更複雜的例子
+  
+    •既然使用原本的方法不是更為直覺更簡單嗎?為什麼要用比較複雜的正則表達式呢?因為正則表達式的優點不只是靈活性高而已。
+     我們來想「匹配電子郵件地址」的問題吧，這邊示範的只是簡單的例子，無法用於實作上
+     
+     如果有一行文字，可用正則表達式快速取得像是電子郵件地址的內容
+      text = "To email Guido, try guido@python.org or the older address "\
+             "guido@google.com."
+      email = re.compile('\w+@\w+\.[a-z]{3}')
+      email.findall(text)
+      
+      我們可以進行進一步的操作，像是把電子郵件地址換成其他的字元串，達到保護個資的作用
+      email.sub('--@--.--', text)
+      
+    •正則表達式的語法基礎
+     
+      •簡單的字串直接匹配
+       regex = re.compile('ion')
+       regex.findall('Great Expectations')
+       
+      •有一些字元在正則表達式中是有特殊意義的，使用上需要用反斜線(\)跳脫他們，所以在正則表達式中
+       . ^ $ * + ? { } [ ] \ | ( )
+       
+       regex = re.compile(r'\$')      #r表明是一個原始字串(raw string)，\代表特殊的字元
+       regex.findall("the cost is $20")  
+       
+       print('a\tb\tc')     #\t是代表tab作用  
+       print(r'a\tb\tc')    #在原始字串中不會作用
+       
+      
+  
+    
+     
+
 
 
     
