@@ -11,6 +11,12 @@
       
   □簡易字串操作
   
+    •產生字串
+     pi=3.14
+     
+     str(pi)
+     "The value of pi is " + str(pi)
+  
     •字串格式化:大小寫轉換
      fox = "bHkloY"
      fox.upper()      #全部字元轉成大寫
@@ -34,5 +40,73 @@
      line.rjust(30)       #產生一定長度的空格並右對齊
      "345".rjust(10,"0")  #能以任意字元填充空格
      "345".zfill(10)      #在左邊填充一定數量的0
+     
+   •查詢和替換⼦字串
+    line = 'the quick brown fox jumped over a lazy dog'
+    line.find('fox')      #查詢子字串在字串中出現的索引值，若搜尋不到子字串，會回傳-1
+    line.index('fox')     #查詢子字串在字串中出現的索引值，若搜尋不到子字串，會回傳ValueError
+    line.rfind('fox')     #從尾部往前查詢子字串在字串中出現的索引值
+    
+    line.endswith('dog')         #檢查字串尾部的子字串
+    linie.startswith('fox')      #檢查字串頭部的子字串
+    
+    line.replace('brown','red')  #以第2個參數替換子字串
+    
+   •拆分和分割字串
+    line.partition('fox')  #partition()會回傳3個tuple，分別是:目標子字串之前的子字串、目標子字串、目標子字串之後的子字串
+    line.rpartition('fox') #rpartition()從右向左搜尋字串
+    line.split()           #split()預設以空白作為分割依據，回傳所有單字
+   
+    
+    haiku = """matsushima-ya
+    aah matsushima-ya
+    matsushima-ya"""
+   
+    haiku.splitlines()      #splitlines()對換行符號進行分割
+    
+    
+    '--'.join(['1', '2', '3'])   #撤銷split()的結果，用分割依據再組成一個字串
+    print("\n".join(['matsushima-ya', 'aah matsushima-ya',    #常見的用法是用換行符號還原成原字串
+    'matsushima-ya']))
+    
+  □格式化字串
+  
+    •格式化字串
+     pi=3.14
+     "The value of pi is {}".format(pi)      #以{}代表將要插入字串格式化後的值
+     """First letter: {0}. Last letter: {1}.""" .format('A', 'Z')    #{}中設定數字代表要插入的參數的索引
+     """First letter: {first}. Last letter: {last}.""" .format(last='Z', first='A')  #若{}中包括了一個字串，則可以名稱指定要插入的值
+     "pi = {0:.3f}".format(pi)    #數字的插入，0代表要插入的參數的索引，:代表後面要跟著格式化的程式碼，
+                                  .3f代表需要的精度資訊，小數點後保留3位小數的浮點數
+                                  
+  □使用正則表示式靈活地匹配字串模式
+  
+    •正則表達式。Python ⽀援正則表⽰式的介⾯存放在內建的 re 模組中
+     line = 'the quick brown fox jumped over a lazy dog'
+     
+     import re
+     regex = re.compile('\s+')    
+     regex.split(line) 
+     #\s是一個特殊的字元，匹配所有空白字元(包含空格、TAB字元、換行符號等)，+指名它在實體出現一次或多次。
+      上述正則表⽰式匹配了任何包含⼀個或多個空格的⼦串。
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
      
      
