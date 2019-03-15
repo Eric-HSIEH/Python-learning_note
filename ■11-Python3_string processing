@@ -136,29 +136,58 @@
        print('a\tb\tc')     #\t是代表tab作用  
        print(r'a\tb\tc')    #在原始字串中不會作用
        
+      •以下為常見的特殊字元，詳參(https://docs.python.org/3/library/re.html#re-syntax)
       
-  
-    
-     
+         字元      描述
+         \d     匹配任意數字
+         \D     匹配任意非數字
+         \s     匹配任意空⽩字元
+         \S     匹配任意非空⽩字元
+         \w     匹配任意字⺟和數字
+         \W     匹配任意非字⺟和數字
+         
+      •除了內建特殊字元外，我們也可以自定義字元。如下自定義小寫母音字母
+       regex = re.compile('[aeiou]')
+       regex.split('consequential')
 
+      •可以短橫線(-)指定字符範圍，如[a-z]匹配任意小寫字母，[1-3]匹配任意數字1、2、3
+       regex = re.compile('[A-Z][0-9]')
+       regex.findall('1043879, G2, H6')
 
+      •若想要匹配三個字母或三個數字的字串，一般可用\w\w\w，但更具體的語法可用{數字}
+       regex = re.compile(r'\w{3}')
+       regex.findall('The quick brown fox')
+       
+      •另外，也可使用一些標記來匹配任意數量的重複字符，如+會匹配前面字元出現1或多次重複的情形
+       regex = re.compile(r'\w+')
+       regex.findall('The quick brown fox')
+       
+      •下面整理了一些正則表達式重要標記
+       字元                 描述                            舉例
+       ?        匹配前⾯字元 0 次或 1 次重複       ab? 匹配 "a" 或 "ab"
+       *        匹配前⾯字元 0 次或多次重複        ab* 匹配 "a"、"ab"、"abb"、"abbb"…
+       +        匹配前⾯字元 1 次或多次重複        ab+ 匹配 "ab"、"abb"、"abbb"…但是不匹配 "a"
+       {n}      匹配前⾯字元 n 次重複             ab{2} 匹配 "abb"
+       {m,n}    匹配前⾯字元 m 次到 n 次重複      ab{2,3} 匹配 "abb" 或 "abbb"
+       
+      •我們回到之前電子郵件地址匹配的正則表達式，現在可以理解下列的意思:我們需要⼀個或者多個數字或字⺟（\w+）後跟 at 符號
+      （@），然後接⼀個或者多個數字或字⺟（\w+），跟著⼀個句號（\.，注意這裡需要⼀個反斜槓轉義），最後跟恰好三個⼩寫字⺟（[a-z]{3}）。
+       email = re.compile(r'\w+@\w+\.[a-z]{3}')
+       
+       接著，我們使用[]，就能夠匹配任意字母或數字或句號
+       email2 = re.compile(r'[\w.]+@\w+\.[a-z]{3}')
+       email2.findall('barack.obama@whitehouse.gov')
+       
+       我們可再加上()進行分組提取
+       email3 = re.compile(r'([\w.]+)@(\w+)\.([a-z]{3})')
+       text = "To email Guido, try guido@python.org or the older address "\
+       "guido@google.com."
+       email3.findall(text)
+       
+       可再進一步使用?P<name>給提取的組命名
+       email4 = re.compile(r'(?P<user>[\w.]+)@(?P<domain>\w+)'\
+                           '.(?P<suffix>[a-z]{3})')
+       match = email4.match('guido@python.org')
+       match.groupdict()
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     
-     
+■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第14章
