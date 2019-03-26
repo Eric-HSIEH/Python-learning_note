@@ -1,0 +1,103 @@
+■資料分析(Data Analysis)
+
+◆相關套件
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+◆matplotlib.pyplot的畫圖語法
+#plt.plot(x, y)
+
+plt.plot(np.random.randn(100))
+plt.plot([3,-5,7,2])
+plt.plot([0.8,1.2,2.1,2.8],[2,-5,3.2,5])
+
+◆zip()
+如果我們想要依照標號將2組資料合併的話，可以使用zip()
+
+x = [0.8, 1.2, 2.1, 2.8]
+y = [2, -5, 3.2, 5]
+
+list(zip(x, y)) #輸出為 [(0.8,2),(1.2,-5),(2.1,3.2),(2.8,5)]
+
+◇如果想要反過來做的話，也是用zip()
+
+points = [(0.8,2),(1.2,-5),(2.1,3.2),(2.8,5)]
+x, y = zip(*points)          #unzip()和zip()的概念其實是相同的
+
+◆互動式介面
+
+◇第一個例子:
+from ipywidgets import interact
+  def f(x):
+    print(x)
+  interact(f, x=3)
+  interact(f, x=3.)    #浮點數數值的滑桿
+  interact(f, list("ABC"))  #下拉式選單
+
+◇如果互動沒有反應時...在終端機執行...
+jupyter nbextension enable --py widgetsnbextension
+
+◇互動式另一個例子
+def move(n = 1):            #設定預設值
+    print(" "*n, "oooo")
+       
+interact(move, n = (1, 50))
+   
+◇視覺化的互動
+x = np.linspace(-5, 5, 1000)
+  
+def draw(n = 1):
+    y = np.sinc(n*x)
+    plt.plot(x, y, lw = 3)
+    plt.show()         #一般在Jupyter Notebook畫圖，並不需要這行
+      
+interact(draw, n = (1., 10.))
+  
+◆NumPy
+ 陣列導向的程式設計
+ 
+ ◇陣列和列表很像
+
+mylist = [1, 2, 3, 4]
+myarr = np.array(mylist)
+
+
+ ◇陣列可直接做運算(+ - * /)
+
+  ◎每個同學成績加5分
+grades = np.array[(87, 65, 77, 93)]
+grades + 5
+
+  ◎查詢到商品的美金，想要知道等於台幣多少
+prices = np.array([996.5, 596.95, 796.95]) 
+prices * 29.99
+
+  ◎學期最終成績計算
+grades = np.array[(87, 65, 77)]
+weights = np.array[(0.2, 0.35, 0.45)]
+
+weighted_grades = grades * weights   #這兩行其實可以換成內積，如np.dot(grades, weights)
+weighted_grades.sum()
+
+  ◇快速產生陣列的方法
+x = np.linspace(0, 10, 100)   #np.linspace(a, b, c)  a是起始，b是結束，c是間隔
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+■其他
+
+◆當我們不知道函式怎麼用的時候，可以按 shift + tab
