@@ -1,0 +1,32 @@
+■機器學習-KMeans
+
+□基礎篇
+
+  1. 生出100筆2維(2個features)資料
+  
+X = np.random.rand(100, 2)
+plt.scatter(X[:, 0], X[:, 1], s=50)
+
+  2. 開啟分類機，並訓練
+
+from sklearn.cluster import KMeans
+clf = KMeans(n_clusters = 3)
+clf.fit(X)
+
+  3. 查看分類結果
+
+clf.labels_
+
+  4.畫出分類結果
+  
+plt.scatter(X[:, 0], X[:, 1], s=50, c=clf.labels_)
+
+  5.畫出分類結果2
+
+x1, x2 = np.meshgrid(np.arange(-0.2, 1.2, 0.02), np.arange(-0.2, 1.2, 0.02))
+Z = clf.predict(np.c_[x1.ravel(), x2.ravel()])
+
+z = Z.reshape(x1.shape)
+
+plt.contourf(x1, x2, z, alpha=0.3)
+plt.scatter(X[:, 0], X[:, 1], s=100, c=clf.labels_)
