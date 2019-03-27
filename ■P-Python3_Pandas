@@ -1,0 +1,107 @@
+■Pandas(Python裡的Excel)
+
+Pandas裡有2種基本資料型態：
+
+  1.Dataframe，如同Excel的一張表格。
+  2.Serices，如list、array。
+  
+□讀入csv檔案
+
+df = pd.read_csv("檔名.csv")
+
+□查看檔案開頭
+
+df.head()
+
+□列出一行資料
+
+df["欄位名稱"]  或是用 df.欄位名稱
+
+□將資料轉成NumPy的array
+
+cg = df.欄位名稱.values
+
+□Python的資料分析流程
+
+- Pandas資料處理 → NumPy科學計算 → ◎StatsModels統計分析 ◎SciKit-Learn機器學習 ◎Keras人工智慧
+
+□轉成NumPy做計算
+
+cg.mean()
+cg.std()
+
+□在Pandas畫圖
+
+df.欄位名稱.plot()
+df.欄位名稱.plot(kind="hist")  #直方圖
+
+□增加欄位
+
+df["新欄位名稱1"] = df.sum(axis = 1)
+df["新欄位名稱2"] = df.欄名1 + df.欄名2 + df.欄名3*2
+
+□排序
+
+df2 = df.sort_values(by = ["排序順位第一的欄位名","排序順位第二的欄位名"], ascending = False)
+df2.head(10)
+
+□重設index
+
+df2.reindex(range(100))   #會造成排好的順序消失
+df2.reset_index()
+df2.index = range(1, 101)
+
+□篩選出想要的資料
+
+df2[df2.欄名1 == 15]
+df2[{df2.欄名1 == 15} & {df2.欄名2 == 15}]       #or的話用"|"
+
+□刪除行
+
+df2.drop("欲刪除的欄名", axis=1)   #原本的df2並不會改變
+df2.drop("欲刪除的欄名", axis=1, inplace = True)   #使原本的df2改變
+
+□刪除列
+
+df2.drop(5)
+df2.drop(df2[df2.欄名=="值"].index)   #刪除條件的資料
+df2[df2.欄名 != "值"]                 #保留不合條件的資料
+
+□用Pandas來玩股票
+
+- 有一個從Pandas獨立出來的套件叫pandas-datareader，目前看起來在Yahoo!還可以用
+
+- 在終端機執行下列程式碼：
+
+1.若沒安裝過
+conda install pandas-datareader
+2.安裝過但很久沒更新
+conda update pandas-datareader
+
+- 讀取APPLE股票資料
+import pandas-datareader as pdr
+df = pdf.get_data_yahoo("AAPL")
+
+- 只要最近300期的資料
+df = df[-300:]
+
+- 簡單移動平均
+
+   -設定windows大小
+df.Close.rolling(20)
+
+   -收盤價格及其移動平均線
+df.Close.plot()         #收盤價格
+df.Close.rolling(20).mean().plot()
+
+   -再增加60期移動平均線
+df.Close.plot(legend = True)   #顯示圖例
+df.Close.rolling(20).mean().plot(label = "$MA_{20}$", legend = True)  #"$MA_{20}$"支援LaTeX
+df.Close.rolling(60).mean().plot(label = "$MA_{60}$", legend = True)
+
+   -準備做預測，將分析的重點轉成NumPy的array
+adj_close = df.Close.values
+x = adj_close[:-1]
+y = adj_close[1:]
+
+plt.scatter(X, Y, alpha=0.5)
