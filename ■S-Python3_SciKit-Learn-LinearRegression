@@ -1,0 +1,106 @@
+■機器學習(SciKit-Learn)-線性迴歸(LinearRegression)
+
+from sklearn.linear_model imoport LinearRegression
+
+□線性迴歸
+
+ - 打開線性迴歸機
+regr = LinearRegression()
+
+x = np.linspace(0, 5, 50)
+y =   1.2*x + 0.8 + 0.4*np.random.randn(50)
+
+  - 將資料原本樣子[x1,x2...]改成學習機要求的樣子[[x1],[x2],...]。就算只有一筆資料也要用二維陣列
+X = x.reshape(-1, 1)
+
+  - 進行訓練
+regr.fit(X, y)   #X是訓練資料，y是正確答案
+
+  - 檢驗預測成果
+regr.predict([[2.8]])
+regr.predict([[1.3], [3.2]])
+
+  - 將原始資料和學習出來的函式比較一下
+plt.scatter(x, y, alpha = 0.5)
+plt.plot(x, regr.predict(X), "r")
+
+
+□迴歸分析(股票預測)
+
+  1. 讀取APPLE股票資料與前置處理
+
+import pandas_datareader as pdr
+df = pdr.get_data_yahoo("AAPL)
+
+df = df[-300:]
+
+adj_close = df.Close.values    #將資料轉成array
+
+X = adj_close[:-1].reshape(299, 1)
+Y = adj_close[1:]
+
+  2. 準備訓練資料與測試資料
+  
+x_train = X[:-40]
+x_test = X[-40:]
+y_train = Y[:-40]
+y_test = Y[-40:]
+
+  3. 開個迴歸機，然後開始學習
+  
+regr = LinearRegression()
+regr.fit(x_train, y_train)
+
+  4. 進行預測
+
+plt.plot(y_test)
+plt.plot(regr.predict(x_test))
+
+  5. 直接預測未來40天
+
+x0 = x_test[0]
+y_predict = np.array([])
+
+for i in range(40):
+    y0 = regr.predict([x0])
+    y_predict = np.append(y_predict, y0)
+    x0 = y0
+
+plt.plot(y_test)
+plt.plot(y_predict)
+
+□迴歸分析(房價預測)
+
+  1. 載入波士頓房價資料庫
+
+from sklearn.datasets import load_boston
+boston = load_boston()
+
+  1.1 查看資料庫的說明，SciKit-Learn內建資料庫都有一些features等說明
+
+print(boston.DESCR)
+boston.feature_names   #也可查看有哪些features
+
+  2.載入輸入和正確答案
+  
+X = boston.data
+Y = boston.target
+
+  3.準備訓練、測試資料
+ 
+from shleaen.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=87)
+
+  4. 準備分類機，開始訓練
+  
+regr = LinearRegression()
+regr.fit(x_train, y_train)
+
+  5. 開始測試
+
+y_predict = regr.predict(x_test)
+
+plt.scatter(y_test, t_predict)
+plt.plot([0, 50], [0,50], "r")
+plt.xlabel("True Price")
+plt.ylabel("Predicted Price")
