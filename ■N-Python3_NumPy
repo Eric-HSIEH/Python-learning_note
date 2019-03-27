@@ -1,0 +1,110 @@
+◆zip()
+如果我們想要依照標號將2組資料合併的話，可以使用zip()
+
+x = [0.8, 1.2, 2.1, 2.8]
+y = [2, -5, 3.2, 5]
+
+list(zip(x, y)) #輸出為 [(0.8,2),(1.2,-5),(2.1,3.2),(2.8,5)]
+
+◇如果想要反過來做的話，也是用zip()
+
+points = [(0.8,2),(1.2,-5),(2.1,3.2),(2.8,5)]
+x, y = zip(*points)          #unzip()和zip()的概念其實是相同的
+
+◆互動式介面
+
+◇第一個例子:
+from ipywidgets import interact
+  def f(x):
+    print(x)
+  interact(f, x=3)
+  interact(f, x=3.)    #浮點數數值的滑桿
+  interact(f, list("ABC"))  #下拉式選單
+
+◇如果互動沒有反應時...在終端機執行...
+jupyter nbextension enable --py widgetsnbextension
+
+◇互動式另一個例子
+def move(n = 1):            #設定預設值
+    print(" "*n, "oooo")
+       
+interact(move, n = (1, 50))
+   
+◇視覺化的互動
+x = np.linspace(-5, 5, 1000)
+  
+def draw(n = 1):
+    y = np.sinc(n*x)
+    plt.plot(x, y, lw = 3)
+    plt.show()         #一般在Jupyter Notebook畫圖，並不需要這行
+      
+interact(draw, n = (1., 10.))
+  
+◆NumPy
+#陣列導向的程式設計
+import numpy as np
+
+ ◇陣列和列表很像
+
+mylist = [1, 2, 3, 4]
+myarr = np.array(mylist)
+
+
+ ◇陣列可直接做運算(+ - * /)
+
+  - 每個同學成績加5分
+grades = np.array[(87, 65, 77, 93)]
+grades + 5
+
+    -查詢到商品的美金，想要知道等於台幣多少
+prices = np.array([996.5, 596.95, 796.95]) 
+prices * 29.99
+
+    -學期最終成績計算
+grades = np.array[(87, 65, 77)]
+weights = np.array[(0.2, 0.35, 0.45)]
+
+weighted_grades = grades * weights   #這兩行其實可以換成內積，如np.dot(grades, weights)
+weighted_grades.sum()
+
+  ◇快速產生陣列的方法
+x = np.linspace(0, 10, 100)   #np.linspace(a, b, c)  a是起始，b是結束，c是間隔
+A = np.arange(10)             #輸出[(1,...,10)]
+
+    -更改陣列維度
+A.shape                       #輸出(10,)，查看維度
+A.shape = (2,5)               #更改維度，變成2維，每個維度有5個元素
+A.reshape(5,2)                #A本身不會改變，A.reshape(a,b)的a*b要等於總數，可將a或b設為-1，由Python自己計算
+
+  ◇axis的概念
+#axis是指運算方向。在二維陣列中有2個方向，沿行(axis = 0)、沿列(axis = 1)。類似矩陣的東西都是「先列後行」
+
+  ◇二維陣列求元素的和
+A = array([[0,1,2],
+           [3,4,5]])
+A.sum()
+A.sum(axis = 0)    #計算每行的和
+A.sum(axis = 1)    #計算每列的和
+
+  ◇陣列過濾器
+L = np.array([3, -2, -1, 5, 7, -3])
+L > 0              #產生L各元素是否>0的bool陣列
+L[L>0]             #直接過濾出>0的L元素陣列
+
+  ◇陣列切片
+x = np.arange(10)
+x[2:5]           #產生索引值2開始到5停止的元素，不含索引值=5本身
+x.shape = (2,5)
+x[:,1:3]         #先列後行 
+x[1:,1:3]
+
+  ◇NumPy的zip與unzip
+#zip
+x = np.array([1,2,3,4])
+y = np.array([5,6,7,8])
+
+T = np.c_[x,y]
+
+#unzip
+x = T[:, 0]
+y = T[:, 1]
