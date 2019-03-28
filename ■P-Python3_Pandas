@@ -1,73 +1,133 @@
+- Python的資料分析流程:
+- Pandas資料處理 → NumPy科學計算 → ◎StatsModels統計分析 ◎SciKit-Learn機器學習 ◎Keras人工智慧
+
 ■Pandas(Python裡的Excel)
 
-Pandas裡有2種基本資料型態：
+- Pandas裡有2種基本資料型態：
 
-  1.Dataframe，如同Excel的一張表格。
-  2.Serices，如list、array。
+   1.Dataframe，如同Excel的一張表格。
+   2.Serices，如同list、array。
   
-□讀入csv檔案
+▲讀入csv檔案 【pd.read_csv("檔名.csv")】
 
 df = pd.read_csv("檔名.csv")
 
-□查看檔案開頭
+▲查看檔案開頭或結尾  【.head()  .tail()】
 
-df.head()
+df.head(3)  #顯示的頭行數
+df.tail(3)  #顯示的尾行數
 
-□列出一行資料
+▲查看資訊或大小  【.info()  .shape】
 
-df["欄位名稱"]  或是用 df.欄位名稱
+df.info()
+df.shape
 
-□將資料轉成NumPy的array
+▲選擇資料    【["欄名"]  ["欄名"][0:4]】
+
+df["欄位名稱1", "欄位名稱2"]        #或是用 df.欄位名稱。選擇某欄
+df["欄位名稱"][0:4]   #選擇某欄的某幾列
+
+▲將資料轉成NumPy的array    【.欄名.values】
 
 cg = df.欄位名稱.values
 
-□Python的資料分析流程
-
-- Pandas資料處理 → NumPy科學計算 → ◎StatsModels統計分析 ◎SciKit-Learn機器學習 ◎Keras人工智慧
-
-□轉成NumPy做計算
+▲轉成NumPy做計算    
 
 cg.mean()
 cg.std()
 
-□在Pandas畫圖
+▲在Pandas畫圖    【.欄名.plot(kind="hist")】
 
 df.欄位名稱.plot()
 df.欄位名稱.plot(kind="hist")  #直方圖
 
-□增加欄位
+▲增加欄位   【["新欄名"] = 】
 
 df["新欄位名稱1"] = df.sum(axis = 1)
 df["新欄位名稱2"] = df.欄名1 + df.欄名2 + df.欄名3*2
 
-□排序
+▲新增資料或刪除  【.insert(新增在第幾行, 新增的欄名, 新增的值)】
 
-df2 = df.sort_values(by = ["排序順位第一的欄位名","排序順位第二的欄位名"], ascending = False)
+df.insert(3, column = "欄名", values="值")  
+df1 = df.dropna()    #刪除NaN資料
+
+▲空白資料填充   【.fillna(欲取代NaN為什麼值)】
+
+df2 = df.fillna(0)   #將NaN值以0取代
+
+▲排序     【.sort_values(by = ["排序順位第一的欄位名","排序順位第二的欄位名"], ascending = False)】
+
+df2 = df.sort_values(by = ["year","month"], ascending = False)
 df2.head(10)
 
-□重設index
+▲索引 
 
-df2.reindex(range(100))   #會造成排好的順序消失
-df2.reset_index()
-df2.index = range(1, 101)
+  - 載入檔案時更改索引 【pd.read_csv("檔名.csv", index_col = "欲變成索引的欄名")】
 
-□篩選出想要的資料
+bond = pd.read_csv("csv/AFG.csv", index_col = "Film")
+bond.index            #查看索引
+
+  - 載入檔案後，更改索引 【.set_index(, inplace = True)】
+
+bond.set_index("Film", inplace = True)   
+
+  - 重置索引 【.reset_index(, inplace = True)】
+
+bond.reset_index(inplace = True)
+
+  - 由loc[]來以index取出資料 【.loc["index"]】
+
+bond.loc[["Goldfinger", "From Russia with love"]]   #取出兩部電影的資訊
+bond.loc["Goldfinger", "Actor"]       #取出Goldfinger的資訊，以及它的Actor
+  
+  - 由iloc[]來以index位置取出資料 【.iloc[數字]】
+  
+bond.iloc[[0, 4]]  #取得index位置0跟4的資料
+bond.iloc[0:4]     #取得index位置0到3的資料
+
+  - 重新命名索引名 【rename(index = {舊欄名1:新欄名1, 舊欄名2:新欄名2}, inplace = True)】
+
+bond.rename(index = {"Year" : "Release Date", "Box" : "Fate"}, inplace = True)
+
+  - 刪除 【.drop(labels = ["欄名1","欄名2"], axis = "columns")】
+
+bond.drop(labels = ["Box office", "Actor"], axis = "columns")
+
+▲篩選出想要的資料  【[.欄名 條件]   [{.欄名 條件 邏輯運算子 .欄名 條件}]】
 
 df2[df2.欄名1 == 15]
 df2[{df2.欄名1 == 15} & {df2.欄名2 == 15}]       #or的話用"|"
 
-□刪除行
+mask = df2["欄名"].isin(["值1", "值2", "值3"])    #篩選指定欄位中的某些值
+mask1 = df2["欄名"].isnull()     #篩選出是Null值的資料
+mask2 = df2["欄名"].notnull()     #篩選出不是Null值的資料
+
+df2[df2["欄名"].between("值1", "值2")]  #篩選出介於某範圍的值
+
+▲刪除行   【.drop("欲刪除的欄名", axis=1, inplace = True)】
 
 df2.drop("欲刪除的欄名", axis=1)   #原本的df2並不會改變
 df2.drop("欲刪除的欄名", axis=1, inplace = True)   #使原本的df2改變
 
-□刪除列
+▲刪除列    【.drop(欲刪除的列)  .drop( [ .欄名 條件].index)】
 
 df2.drop(5)
 df2.drop(df2[df2.欄名=="值"].index)   #刪除條件的資料
 df2[df2.欄名 != "值"]                 #保留不合條件的資料
 
-□用Pandas來玩股票
+▲重新命名欄位或索引名稱   【rename(columns = {舊欄名1:新欄名1, 舊欄名2:新欄名2}, inplace = True)】
+
+bond.rename(columns = {"Year" : "Release Date", "Box" : "Fate"}, inplace = True)
+
+
+
+
+
+
+
+
+
+★用Pandas來玩股票
 
 - 有一個從Pandas獨立出來的套件叫pandas-datareader，目前看起來在Yahoo!還可以用
 
