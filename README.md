@@ -1,6 +1,6 @@
-# Python3-learning_note
+# Python-learning_note
 
- Here are my learning notes of Python3.
+ Here are my learning notes of Python.
  
  The notes here refer to the resource below：
  
