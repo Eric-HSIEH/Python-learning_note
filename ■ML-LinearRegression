@@ -1,5 +1,38 @@
 ■機器學習(SciKit-Learn)-線性迴歸(LinearRegression)
 
+□ iT邦幫忙-使用Python進行資料分析
+
+# 載入套件
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+from sklearn import datasets
+
+# 建立迴歸資料
+# 利用make_regression()建立200個樣本，只有一種特徵和一種標籤，將noise = 10讓資料分散一點
+X,y = datasets.make_regression(n_samples=200,n_features=1,n_targets=1,noise=10)
+
+# 繪製散布圖
+plt.scatter(X,y,linewidths=0.1)
+plt.show()
+
+# 進行線性迴歸預測
+model = LinearRegression()  # 建立一個model線性迴歸模型
+
+# 將資料放入模型內訓練
+model.fit(X,y)
+
+# 因為要再畫出預測的資料圖，將預測資料放入變數中
+predict = model.predict(X[:200,:])
+
+# 畫圖
+plt.plot(X,predict,c="red")
+plt.scatter(X,y)
+plt.show()      #中間的紅線就是線性迴歸找出的線
+
+-------------------------------------------------------------------------------------
+
+□ 台灣資料科學年會-手把手打開Python資料分析大門
+
 from sklearn.linear_model imoport LinearRegression
 
 □線性迴歸
