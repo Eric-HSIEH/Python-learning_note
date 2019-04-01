@@ -60,6 +60,48 @@ df2 = df.fillna(0)   #將NaN值以0取代
 df2 = df.sort_values(by = ["year","month"], ascending = False)
 df2.head(10)
 
+▲篩選出想要的資料  【[.欄名 條件]   [{.欄名 條件 邏輯運算子 .欄名 條件}]】
+
+df2[df2.欄名1 == 15]
+df2[{df2.欄名1 == 15} & {df2.欄名2 == 15}]       #or的話用"|"
+
+mask = df2["欄名"].isin(["值1", "值2", "值3"])    #篩選指定欄位中的某些值
+mask1 = df2["欄名"].isnull()     #篩選出是Null值的資料
+mask2 = df2["欄名"].notnull()     #篩選出不是Null值的資料
+
+df2[df2["欄名"].between("值1", "值2")]  #篩選出介於某範圍的值
+
+▲刪除行   【.drop("欲刪除的欄名", axis=1, inplace = True)】
+
+df2.drop("欲刪除的欄名", axis=1)   #原本的df2並不會改變
+df2.drop("欲刪除的欄名", axis=1, inplace = True)   #使原本的df2改變
+
+▲刪除列    【.drop(欲刪除的列)  .drop( [ .欄名 條件].index)】
+
+df2.drop(5)
+df2.drop(df2[df2.欄名=="值"].index)   #刪除條件的資料
+df2[df2.欄名 != "值"]                 #保留不合條件的資料
+
+▲重新命名欄位或索引名稱   【rename(columns = {舊欄名1:新欄名1, 舊欄名2:新欄名2}, inplace = True)】
+
+bond.rename(columns = {"Year" : "Release Date", "Box" : "Fate"}, inplace = True)
+
+▲群組操作    【.groupby(欲分組的依據)】
+
+fortune = pd.read_csv("./csv/fortune1000.csv",index_col="Rank")  #匯入資料
+
+sector = fortune.groupby("Sector")    # 群組化資料
+sector.size()                         # 可以看出各組別的大小
+sector.groups                         # 查看群組結果
+sector.get_group("Energy")            # 取出想要找的類別
+
+   - 群組運算
+   
+sector.groupby("Sector").sum()
+sector.groupby(["Sector", "Box"]).sum()
+
+----------------------------------------------------------------------------------------
+
 ▲索引 
 
   - 載入檔案時更改索引 【pd.read_csv("檔名.csv", index_col = "欲變成索引的欄名")】
@@ -93,39 +135,64 @@ bond.rename(index = {"Year" : "Release Date", "Box" : "Fate"}, inplace = True)
 
 bond.drop(labels = ["Box office", "Actor"], axis = "columns")
 
-▲篩選出想要的資料  【[.欄名 條件]   [{.欄名 條件 邏輯運算子 .欄名 條件}]】
+  - 多層索引 【.drop(labels = ["欄名1","欄名2"], axis = "columns")】
+  
+bigmac = pd.read_csv("./csv/bigmac.csv",parse_dates=["Date"]) 
+bigmac.set_index(keys = ["Date","Country"],inplace=True)    # 設定Date,Country為索引
+bigmac.index.names   # 查看有哪些索引
+type(bigmac.index)   # 查看索引的類型
 
-df2[df2.欄名1 == 15]
-df2[{df2.欄名1 == 15} & {df2.欄名2 == 15}]       #or的話用"|"
+bigmac = pd.read_csv("./csv/bigmac.csv",parse_dates=["Date"],index_col=["Date","Country"])
+bigmac.sort_index(inplace=True)           # 依照索引排序資料
+bigmac.index.get_level_values(0)          # 可得到第0個索引的資料，也就是Date
+bigmac.index.get_level_values("Date")     # 也可以直接在括弧中放入要查詢的索引名稱
+bigmac.index.set_names(["Day","Location"],inplace=True)  # 更改索引的名稱
 
-mask = df2["欄名"].isin(["值1", "值2", "值3"])    #篩選指定欄位中的某些值
-mask1 = df2["欄名"].isnull()     #篩選出是Null值的資料
-mask2 = df2["欄名"].notnull()     #篩選出不是Null值的資料
+---------------------------------------------------------------------------------------
 
-df2[df2["欄名"].between("值1", "值2")]  #篩選出介於某範圍的值
+▲字串處理  
 
-▲刪除行   【.drop("欲刪除的欄名", axis=1, inplace = True)】
+   - Python基本操作
+   
+.lower()    # 全部變小寫
+.upper()    # 全部變大寫
+.title()    # 第一個字變大寫
+len()       # 字串長度
+"Hello world".replace("l","!")        # 把第一個參數改成第二個參數
+"Hello my name is jiayi".split(" ")   # 以空隔分開字串
 
-df2.drop("欲刪除的欄名", axis=1)   #原本的df2並不會改變
-df2.drop("欲刪除的欄名", axis=1, inplace = True)   #使原本的df2改變
+   - Pandas字串處理(用Pandas做字串處理，要先用.str轉換)
+   
+      - 基本操作
+   
+chicago = pd.read_csv("./csv/chicago.csv")
+chicago["Department"] = chicago["Department"].astype("category")  #轉成category資料型態，節省記憶體
+chicago["Name"] = chicago["Name"].str.title()                 # 第一個字變大寫
+type(chicago["Name"].str)                                     # 查看資料類別
+chicago["Name"] = chicago["Name"].str.lower().head(3)         # 全部變小寫
+chicago["Name"] = chicago["Name"].str.upper().head(3)         # 全部變大寫
+chicago["Department"].str.len().head()                        # 字串長度
 
-▲刪除列    【.drop(欲刪除的列)  .drop( [ .欄名 條件].index)】
+chicago = pd.read_csv("csv/chicago.csv").dropna(how="all")
+chicago["Department"] = chicago["Department"].astype("category")
+chicago["Department"] = chicago["Department"].str.replace("MGMNT","MANAGEMENT") # 替換字串
 
-df2.drop(5)
-df2.drop(df2[df2.欄名=="值"].index)   #刪除條件的資料
-df2[df2.欄名 != "值"]                 #保留不合條件的資料
+      - 過濾資料
+        
+mask = chicago["Position Title"].str.lower().str.contains("water")     # 取出有特定字串的資料
+chicago[mask]
 
-▲重新命名欄位或索引名稱   【rename(columns = {舊欄名1:新欄名1, 舊欄名2:新欄名2}, inplace = True)】
+mask = chicago["Position Title"].str.lower().str.startswith("water")   # 取出字串開頭符合的資料
+chicago[mask]
+mask = chicago["Position Title"].str.lower().str.endswith("water")     # 取出字串結尾符合的資料
+chicago[mask]
 
-bond.rename(columns = {"Year" : "Release Date", "Box" : "Fate"}, inplace = True)
+      - 切割資料
+      
+chicago["Name"].str.split(",")                            # 用","將資料分開
+chicago["Name"].str.split(",").str.get(0).str.title()     # 分開後將資料取出來
 
-
-
-
-
-
-
-
+--------------------------------------------------------------------------------------------
 
 ★用Pandas來玩股票
 
