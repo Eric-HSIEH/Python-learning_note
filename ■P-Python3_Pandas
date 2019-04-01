@@ -194,6 +194,40 @@ chicago["Name"].str.split(",").str.get(0).str.title()     # 分開後將資料�
 
 --------------------------------------------------------------------------------------------
 
+▲ 資料視覺化
+
+import pandas as pd
+
+# 為了使用yahoo的資料所以執行下列程式碼：
+from pandas_datareader import data
+import pandas_datareader.data as web
+
+# 如果顯示沒有pandas_datareader的話：
+conda install pandas_datareader
+or 
+pip install pandas_datareader
+
+# import datetime：
+import datetime
+
+# 若pandas_datareader無法使用：
+import pandas as pd
+pd.core.common.is_list_like = pd.api.types.is_list_like
+import pandas_datareader as web
+
+   - Remote Data Access
+
+# 定義資料
+start = datetime.datetime(2016, 1, 1)
+end = datetime.datetime(2017, 1, 1)
+data = web.DataReader("F", 'morningstar', start, end)  # 因yahoo停止運作，改成morningstar，F表示morningstar的Finance資料
+
+# 畫圖
+data.plot()
+data.plot(y="Close")  # 或data["Close"].plot() 或data[["High","Low"]].plot()
+
+--------------------------------------------------------------------------------------------
+
 ★用Pandas來玩股票
 
 - 有一個從Pandas獨立出來的套件叫pandas-datareader，目前看起來在Yahoo!還可以用
