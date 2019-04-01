@@ -1,0 +1,21 @@
+■模組儲存model store
+
+  - 載入套件
+from sklearn import svm
+from sklearn import datasets
+from sklearn.externals import joblib
+
+  - 建立資料集及預測模型clf
+clf = svm.SVC()
+iris = datasets.load_iris()
+X,y = iris.data , iris.target
+clf.fit(X,y)
+
+  - 用joblib.dump()儲存模組  
+joblib.dump(clf,'clf.pkl')
+
+  - 用joblib.load()呼叫模組  
+clf2 = joblib.load('clf.pkl')
+
+  - 直接使用
+print(clf2.predict(X[0:1]))
