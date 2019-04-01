@@ -1,0 +1,42 @@
+■ 特徵標準化
+
+# 將特徵資料按比例縮放，讓資料落於某一特定區間。可優化梯度下降法，以及提升精準度。
+
+  - 標準化有2種方式：
+  1. min max normalization：
+     將特徵資料按比例縮放到0-1的區間(或-1到1)。
+  2. standard deviation normalization：
+     將特徵資料縮放成平均 = 0，平方差 = 1。
+     
+  - 載入套件
+from sklearn import preprocessing
+import numpy as np
+from sklearn.cross_validation import train_test_split
+from sklearn.datasets.samples_generator import make_classification
+from sklearn.svm import SVC
+import matplotlib.pyplot as plt
+
+  - 建立隨機的特徵資料，並且畫圖
+X,y = make_classification(n_samples=300,n_features=2,n_redundant=0,n_informative=2,
+                          random_state=3,scale=100,n_clusters_per_class=1)
+plt.scatter(X[:,0],X[:,1],c=y)
+plt.show()
+
+  - 將資料切分，並用SVC分類法訓練資料
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+clf = SVC()
+clf.fit(X_train,y_train)
+
+  - 用score()查看準確度
+clf.score(X_test,y_test)  
+
+  - 標準化 preprocessing.scale()
+X = preprocessing.scale(X)
+
+  - 區分資料並訓練
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+clf = SVC()
+clf.fit(X_train,y_train)
+
+  - 再次查看準確度
+clf.score(X_test,y_test)
