@@ -1,19 +1,119 @@
-◆zip()
-如果我們想要依照標號將2組資料合併的話，可以使用zip()
+■ Numpy操作索引＆局部資料
+
+import numpy as np
+arr = np.arange(10)  # 新增資料
+
+  - 索引
+  
+arr[5:8]             # 用索引取得資料
+arr[5:9] = 7         # 用索引改變資料
+
+  - 切片(局部修改資料)
+
+myarr = np.arange(10)
+myarr[5:8] = 7
+slice = myarr[5:8]
+slice[1] = 87
+myarr
+
+■ Numpy的廣播&方法
+
+  - 相當於NumPy會把d放大變成和c相同大小，而不需要複製和c一樣多的2。就是所謂的廣播。
+  
+c = np.array([1.0, 2.0, 3.0])
+d = 2
+c * d      
+
+  - 相當於x2和y會變成4乘4的矩陣
+
+x = np.arange(4)
+x2 = x.reshape(4,1)
+y = np.ones(5)        # 建立一個y = [1, 1, 1, 1]
+x2+ y
+
+  - reshape()。更改陣列的形狀
+
+s = np.arange(6)
+s = s.reshape((3, 2))
+
+  - .T。轉置陣列
+
+x = np.zeros((10, 2))   # 建立0的10乘2矩陣
+y = x.T                 # 將x轉置成2乘10矩陣
+
+
+  - .base。
+
+y = np.array([1,2,3,4])
+y.base is None          # 會得到True，因為它的基底不是從其它數值來的
+ 
+x = np.arange(4)
+xx = x.reshape(4,1)
+y = np.ones(5)
+(xx + y)
+
+xx.base is x            # 會得到True，因為xx的基底是從x來的
+xx.base is y            # 會得到False，因為xx的基底是從x來的
+
+■ Numpy的數學&統計方法
+
+  - Random Data
+  
+np.random.randn() # 隨機產生數字，可能是負的正的，大於一小於一  
+np.random.randn(2, 4) + 1.920929  # 產生2 x 4矩陣，並隨機給它數值，再加上1.920929
+
+np.random.randint(4, size=10)  # 產生10個< 4 的整數
+np.random.randint(low=4,high=10,size=10)
+
+  - Methods
+  
+x = np.random.randn(5, 4)
+x.mean()  # 平均值  
+x.sum()   # 總和
+x.min()   # 最小值
+x.max()   # 最大值
+
+x = np.array([[2,3,4], [5,6,7]])
+np.cumsum(x)        # 會回傳累積的數值，2(2) 5(2+3) 9(2+3+4) 14(2+3+4+5) 20(2+3+4+5+6) 27(2+3+4+5+6+7)
+
+x = np.array([[1, 2], [3, 4]])
+np.std(x)   # 標準差
+
+■ Numpy檔案輸入與輸出
+
+  - Binary Format
+
+x = np.arange(10)
+np.save('my_array', x)   # 將x儲存成檔名為x_array
+np.load('my_array.npy')  # 載入資料
+
+aData = [1,2,3,4,5,6]
+bData = [7,8,9,10,11,12]
+np.savez('my_archive.npz', a=aData, b=bData) # 將多個陣列儲存在zip檔
+myArch = np.load('my_archive.npz')  # 載入資料
+
+  - Text Files
+  
+!cat my_txt.txt  # 查看txt檔案內容
+myArr = np.loadtxt('my_txt.txt', delimiter=',') # 以設定分隔符號,來載入txt檔案
+np.savetxt('txtfile.txt', myArr)  # 儲存成txt檔案
+
+■ zip()。如果我們想要依照標號將2組資料合併的話，可以使用zip()
 
 x = [0.8, 1.2, 2.1, 2.8]
 y = [2, -5, 3.2, 5]
 
 list(zip(x, y)) #輸出為 [(0.8,2),(1.2,-5),(2.1,3.2),(2.8,5)]
 
-◇如果想要反過來做的話，也是用zip()
+  - 如果想要反過來做的話，也是用zip()
 
 points = [(0.8,2),(1.2,-5),(2.1,3.2),(2.8,5)]
 x, y = zip(*points)          #unzip()和zip()的概念其實是相同的
 
-◆互動式介面
+■  互動式介面
 
-◇第一個例子:
+  - 第一個例子:
+  
 from ipywidgets import interact
   def f(x):
     print(x)
@@ -21,16 +121,19 @@ from ipywidgets import interact
   interact(f, x=3.)    #浮點數數值的滑桿
   interact(f, list("ABC"))  #下拉式選單
 
-◇如果互動沒有反應時...在終端機執行...
+  - 如果互動沒有反應時...在終端機執行...
+  
 jupyter nbextension enable --py widgetsnbextension
 
-◇互動式另一個例子
+  - 互動式另一個例子
+  
 def move(n = 1):            #設定預設值
     print(" "*n, "oooo")
        
 interact(move, n = (1, 50))
    
-◇視覺化的互動
+  - 視覺化的互動
+  
 x = np.linspace(-5, 5, 1000)
   
 def draw(n = 1):
@@ -40,71 +143,68 @@ def draw(n = 1):
       
 interact(draw, n = (1., 10.))
   
-◆NumPy
-#陣列導向的程式設計
+■  NumPy。陣列導向的程式設計
+
 import numpy as np
 
- ◇陣列和列表很像
+ - 陣列和列表很像
 
 mylist = [1, 2, 3, 4]
 myarr = np.array(mylist)
 
 
- ◇陣列可直接做運算(+ - * /)
+ - 陣列可直接做運算(+ - * /)
 
-  - 每個同學成績加5分
+    - 每個同學成績加5分
+    
 grades = np.array[(87, 65, 77, 93)]
 grades + 5
 
-    -查詢到商品的美金，想要知道等於台幣多少
+    - 查詢到商品的美金，想要知道等於台幣多少
+    
 prices = np.array([996.5, 596.95, 796.95]) 
 prices * 29.99
 
-    -學期最終成績計算
+    - 學期最終成績計算
+    
 grades = np.array[(87, 65, 77)]
 weights = np.array[(0.2, 0.35, 0.45)]
 
 weighted_grades = grades * weights   #這兩行其實可以換成內積，如np.dot(grades, weights)
 weighted_grades.sum()
 
-  ◇快速產生陣列的方法
+ - 快速產生陣列的方法
+ 
 x = np.linspace(0, 10, 100)   #np.linspace(a, b, c)  a是起始，b是結束，c是間隔
 A = np.arange(10)             #輸出[(1,...,10)]
 
-    -更改陣列維度
+    - 更改陣列維度
+    
 A.shape                       #輸出(10,)，查看維度
 A.shape = (2,5)               #更改維度，變成2維，每個維度有5個元素
 A.reshape(5,2)                #A本身不會改變，A.reshape(a,b)的a*b要等於總數，可將a或b設為-1，由Python自己計算
 
-  ◇axis的概念
+  - axis的概念
 #axis是指運算方向。在二維陣列中有2個方向，沿行(axis = 0)、沿列(axis = 1)。類似矩陣的東西都是「先列後行」
 
-  ◇二維陣列求元素的和
+  - 二維陣列求元素的和
+  
 A = array([[0,1,2],
            [3,4,5]])
 A.sum()
 A.sum(axis = 0)    #計算每行的和
 A.sum(axis = 1)    #計算每列的和
 
-  ◇陣列過濾器
+  - 陣列過濾器
+  
 L = np.array([3, -2, -1, 5, 7, -3])
 L > 0              #產生L各元素是否>0的bool陣列
 L[L>0]             #直接過濾出>0的L元素陣列
 
-  ◇陣列切片
+  - 陣列切片
+  
 x = np.arange(10)
 x[2:5]           #產生索引值2開始到5停止的元素，不含索引值=5本身
 x.shape = (2,5)
 x[:,1:3]         #先列後行 
 x[1:,1:3]
-
-  ◇NumPy的zip與unzip
-#zip
-x = np.array([1,2,3,4])
-y = np.array([5,6,7,8])
-
-T = np.c_[x,y]
-
-#unzip
-x = T[:, 0]
-y = T[:, 1]
