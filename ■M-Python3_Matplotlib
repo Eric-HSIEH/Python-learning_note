@@ -1,9 +1,9 @@
 ◆Matplotlib
 import matplotlib.pyplot as plt
 
-  1. plt.plot
+  1. 線圖。plt.plot
 
-  ◇首先來畫幾張圖
+  ◇ 首先來畫幾張圖
 #畫圖語法：plt.plot(x, y)，x、y分別是xy座標的list或array
 
 plt.plot(np.random.randn(100))      #畫標準常態分佈隨機取100個點
@@ -14,19 +14,32 @@ x = np.linspace(-10,10,100)
 y = np.sin(x)
 plt.plot(x,y)
 
-  ◇變色
+lines = plt.plot(years,pops,years,deaths) # 兩條線
+
+  ◇ 變色
 plt.plot(x, y, "r")  #"r"是紅色、"b"是藍色、"g"是綠色、"c"是藍綠色、"m"是紫色、"y"是黃色、"k"是黑色、"w"是白色
 
-  ◇線條樣式
+  ◇ 線條樣式
 plt.plot(x, y, "--")  #"--"是一般虛線、"-."是虛加點的線、":"是很多點組成的線、"o"是比":"更粗的點構成的線、"^"是由三角形點構成的線、"s"是正方形點構成的線
-
-  ◇線條樣式的變色
+ 
+  ◇ 線條樣式的變色
 plt.plot(x, y, "ro")  #"g--"、"m^"等
 
-  ◇常用參數設定
-# c是顏色、lw是線寬度、ls是線的風格、marker,ms是標記點型式和大小
+  ◇ 常用參數設定
+# c是顏色、lw是線寬度、ls是線的風格、marker或ms是標記點型式和大小
 
-  ◇調整座標大小優化圖形
+  ◇ 設定標籤
+plt.title("sfefe")   # 標題
+plt.ylabel()         # y座標
+plt.xlabel()         # x座標
+
+  ◇ 設定網格
+plt.grid(True)   # 顯示網格
+
+  ◇ 一次設定多個參數
+plt.setp(lines, marker = "o", color = "r", linewidth = 2)   # lines是plt.plot(years, pops, years, deaths)
+
+  ◇ 調整座標大小優化圖形
 plt.axis("equal")                #額外加上這行來優化圖形
   
 t = np.linspace(0, 2*np.pi, 300)
@@ -34,12 +47,14 @@ x = np.cos(t)
 y = np.sin(t)
 plt.plot(x, y, "r", lw=6)
 
-  ◇目前所在的figure和axis
+  ◇ 目前所在的figure和axis
 #在matplotlib上畫圖，其實有一個大的figure，實際圖是畫在axis上的(每個figure可以有很多axis)
 fig = plt.gcf()
 ax = plt.gca()
 
-  2. plt.scatter。和plt.plot是兩大畫圖指令
+-------------------------------------------------------------------------------------
+
+  2. 點圖。plt.scatter。和plt.plot是兩大畫圖指令
 
 #畫點圖
 x = np.linspace(0, 6.28, 50)
@@ -61,7 +76,96 @@ plt.scatter(x, y, s=100, c=c, alpha=0.5)
 #詳見https://matplotlib.org/users/colormaps.html
 plt.scatter(x, y, s=100, c=c ,map="Paired")
 
-  3. 多圖同時呈現
+-------------------------------------------------------------------------------------
+  3. 圓餅圖(plt.pie)
+
+  - pie Chart
+
+labels = 'A','B','C','D','E','F'  # 設定標籤
+separated = (.1,0,0,0,0,0)        # 設定分開的距離
+size = [33,52,12,17,62,48]        # 設定每塊的大小
+plt.pie(size, labels = labels, autopct = "%1.1f%%", explode = separated) # autopct顯示百分比
+plt.axis('equal')  # 讓圓餅圖比例相等
+  
+  - With pandas  
+  
+data = {'names':['a','b','c','d','e'],
+        'jan':[133,122,101,104,320],
+        'feb':[122,132,144,98,62],
+        'march':[64,99,32,12,65] }
+df = pd.DataFrame(data,columns=['names','jan','feb','march'])        
+df['total'] = df['jan']+ df['feb']+df['march']  
+colors = [(1,.4,.4),(1,.6,1),(.5,.3,1),(.7,.7,.2),(.6,.2,.6)]
+
+plt.pie( df['total'] ,
+    labels = df['names'],
+    colors = colors,
+    autopct='%1.1f%%',
+    ) 
+plt.axis('equal')   
+  
+-------------------------------------------------------------------------------------
+
+ 4. 長條圖(plt.bar)
+ 
+col_count = 3
+bar_width = 0.2
+index = np.arange(col_count)
+A_scores = (553,536,548)
+B_scores = (518,523,523)
+C_scores = (613,570,588)
+D_scores = (475,505,499)
+
+# 設定bar的圖型
+A = plt.bar(index,
+           A_scores, 
+           bar_width,
+           alpha=.4,
+           label="K") 
+B = plt.bar(index+0.2,
+            B_scores,
+            bar_width,
+            alpha=.4,
+            label="C") 
+C = plt.bar(index+0.4,
+            C_scores,
+            bar_width,
+            alpha=.4,
+            label="N") # x,y ,width
+D = plt.bar(index+0.6,
+            D_scores,
+            bar_width,
+            alpha=.4,
+            label="F") # x,y ,width
+            
+# 每個長條圖上都有顯示資料標籤
+def createLabels(data):
+    for item in data:
+        height = item.get_height()
+        plt.text(
+            item.get_x()+item.get_width()/2., 
+            height*1.05, 
+            '%d' % int(height),
+            ha = "center",
+            va = "bottom",
+        )
+createLabels(A)
+createLabels(B)
+createLabels(C)
+createLabels(D)
+
+# 定義標籤：.xticks為底下的文字(為了置中所以+0.3/2)
+plt.ylabel("Mean score")
+plt.xlabel("Subject")
+plt.title("Test Scores by Contry")
+plt.xticks(index+ .3 / 2 ,("Math", "Reading", "Science"))
+plt.legend() 
+plt.grid(True)
+plt.show()
+
+-------------------------------------------------------------------------------------
+
+  5. 多圖同時呈現
 #plt.subplot(列數, 行數, 圖形編號)
 
 x =np.linspace(0, 10, 100)
@@ -78,7 +182,9 @@ plt.plot(x, (x-5)**2)
 plt.subplot(2, 2, 4)
 plt.plot(x, np.sin(x)+0.3*np.cos(5*x))
 
-  4.活用filter
+-------------------------------------------------------------------------------------
+
+  6.活用filter
   
 x = np.linspace(-5, 5, 500)
 y = np.sinc(x)
@@ -86,7 +192,9 @@ y = np.sinc(x)
 plt.plot(x, y, lw=6)
 plt.plot(x[y>0], y[y>0], "o")
 
- 5.meshgrid概念。產生格點，分成x,y座標，由下而上一列列排出，用於畫3D、contour map
+-------------------------------------------------------------------------------------
+
+ 7.meshgrid概念。產生格點，分成x,y座標，由下而上一列列排出，用於畫3D、contour map
  
  ◇等高線應用
  
