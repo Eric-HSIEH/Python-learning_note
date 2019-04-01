@@ -1,0 +1,23 @@
+■Sklearn機器學習
+
+# 載入二元樹分類
+from sklearn import tree 
+
+# 特徵定義
+features = [[150,1],[170,1],[130,0],[140,0]]  #150、170等是重量；1、0是表面(1是皺0是平滑)
+
+# 標籤定義
+labels = [0,0,1,1]   #0是橘子1是蘋果
+
+# DecisionTreeClassifier
+clf = tree.DecisionTreeClassifier()   # 建立一個二元樹分類
+
+# 放資料到分類模型中
+clf = clf.fit(features,labels)
+
+# 預測。我們假設重量120g表面平滑的一顆水果
+wantPredict = clf.predict([[120,0]]) 
+if wantPredict == [1]:
+    print('This is an apple')
+elif wantPredict == [0]:
+    print('This is an orange')
