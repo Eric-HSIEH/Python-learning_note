@@ -1,5 +1,51 @@
 ■ 機器學習-監督式學習-支援向量機(SVM)
 
+from sklearn import preprocessing
+import numpy as np
+import matplotlib.pyplot as plt
+
+# train_test_split來把資料做切分（一邊為訓練一邊為測試資料）
+# make_classification用來產生隨機的訓練資料
+from sklearn.cross_validation import train_test_split
+from sklearn.datasets.samples_generator import make_classification
+from sklearn.svm import SVC
+
+# 建立隨機的特徵資料並且繪圖：
+X,y = make_classification(n_samples=300,n_features=2,n_redundant=0,n_informative=2,
+                          random_state=3,scale=100,n_clusters_per_class=1)
+plt.scatter(X[:,0],X[:,1],c=y)
+plt.show()
+
+# 將資料切分，並且用SVC分類法進行訓練：
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+clf = SVC()
+clf.fit(X_train,y_train)
+
+# 最後用score()來查看訓練的分數如何：
+clf.score(X_test,y_test)
+
+■ 標準化
+
+# 為了證明標準化能夠讓幫助資料訓練，我們使用preprocessing.scale()標準化X：
+X = preprocessing.scale(X)
+
+# 一樣區分資料，並且訓練：
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+clf = SVC()
+clf.fit(X_train,y_train)
+
+# 來看看得分多少吧：
+clf.score(X_test,y_test)
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
   1. 載入iris資料庫
 
 from sklearn.datasets import load_iris 
