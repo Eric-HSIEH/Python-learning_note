@@ -28,7 +28,7 @@ plt.scatter(x_train[:, 0], x_train[:, 1], c=y_train)
   5. 開啟SVC分類器
   
 from sklearn.svm import SVC 
-clf =SCV()  
+clf =SVC()  
   
   6. 進行訓練
   
