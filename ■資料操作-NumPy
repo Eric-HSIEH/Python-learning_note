@@ -1,3 +1,28 @@
+■ 基本操作(List)
+
+list = []
+list.append(x)      把變數x塞到list的最後面
+list.insert(i, x)   把變數x塞到i這個位置上
+list.pop()          把list的最後一格丟掉
+list.pop(i)         把list的第i格丟掉
+list.remove(x)      會把第一個出現的變數x拿掉
+list.clear()        把list內的資料全部清光光
+
+max(list)   找出list中最大值
+min(list)   找出list中最小值
+sum(list)   找出list數字總和
+
+■ 基本操作(Dictionary)
+
+dict ={}                      建立空的dict
+del dist["key名稱"]           刪除特定的key-value pari
+dict[key]=value               如果key不存在，會增加這組K-V；如果key已存在，會更新這組K-V
+print("one" in dist)          檢查是否有key存在
+d.keys()                      取得所有key組成的list
+d.valuse()                    取得所有value組成的list
+d.get("two","find nothing")   依據key取得值，若無則回傳第2個參數
+
+
 ■ Numpy操作索引＆局部資料
 
 import numpy as np
