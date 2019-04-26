@@ -48,7 +48,7 @@ df["新欄位名稱2"] = df.欄名1 + df.欄名2 + df.欄名3*2
 
 ▲新增資料或刪除  【.insert(新增在第幾行, 新增的欄名, 新增的值)】
 
-df.insert(3, column = "欄名", values="值")  
+df.insert(3, column = "欄名", value="值")  
 df1 = df.dropna()    #刪除NaN資料
 
 ▲空白資料填充   【.fillna(欲取代NaN為什麼值)】
