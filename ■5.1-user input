@@ -1,0 +1,11 @@
+■ imput函式
+
+name = input("please enter your name : ") # 將等待使用者輸入完畢才會再執行
+print("hello," + name)
+
+age = input("how old are you ? ") # 由於使用者輸入的內容為字串型態，故此處需轉為整數型態
+age = int(age)
+if age >= 20 :
+  print("can vote")
+else :
+  print("can't vote")
