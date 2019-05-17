@@ -28,6 +28,12 @@
       print(i, end=" ")
       i = i + 1
       
+   □while，刪除列表內特定元素
+    text = ["a", "b", "a", "h"]
+    while "a" in text :    # 當列表內仍有a字串時，迴圈將繼續執行
+      text.remove("a")
+    print(text)
+      
  □break跳出整個迴圈；continue跳出當前迴圈，進入下一個迭代中
     •while True迴圈，一直迴圈直到遇到一個跳出語句
       a, b = 0, 1
