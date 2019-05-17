@@ -1,12 +1,12 @@
 ■ data structure
 
-  □ Python具有下列4種資料結構：
-    列表(List)。有序集合
-    元組(Tuple)。不可變的有序集合
-    字典(Dict)。無序的鍵值對映
-    集合(Set)。無序且唯一
+ ■ Python具有下列4種資料結構：
+   列表(List)。有序集合
+   元組(Tuple)。不可變的有序集合
+   字典(Dict)。無序的鍵值對映
+   集合(Set)。無序且唯一
    
-□ 列表(List)
+■ 列表(List)
   
   1. 新增與刪除元素
   
@@ -41,7 +41,7 @@
     L[0] = 100   # 可改變列表中的元素
     C = L[:]     # 將L列表複製到C列表
       
-□ 元組(Tuple)。各方面與列表很像，但一旦建立後是不可變的，如建立生日資料，因生日並不會更動：
+■ 元組(Tuple)。各方面與列表很像，但一旦建立後是不可變的，如建立生日資料，因生日並不會更動：
 
     t = (1,2,3)
     t = 1,2,3         # 可不用括號表示
@@ -50,21 +50,26 @@
     t[0] = 4          # 因無法更改所以將會出錯  
     t.append(10)      # 因無法更改所以將會出錯
     
-    •tuple經常用於Python中，最常見的是函式返回多個值：
-      x = 0.125
-      x.as_integer_ratio()    #as_integer_ratio()可回傳浮點數對應的分子與分母，而回傳值就是tuple
-      numerator, denominator = x.as_integer_ratio()    #可以分別獨立賦值
-      print(numerator / denominator)
-      
-    •tuple也跟列表一樣，具有索引及切片的功能
-    
- □ 字典(Dict)。字典為非常靈活的鍵值對，不具順序性，形式為(key:value)：
+  □ tuple經常用於Python中，最常見的是函式返回多個值：
+    x = 0.125
+    x.as_integer_ratio()    # as_integer_ratio()可回傳浮點數對應的分子與分母，而回傳值就是tuple
+    numerator, denominator = x.as_integer_ratio()    # 可以分別獨立賦值
+    print(numerator / denominator)
+           
+ ■ 字典(Dict)。字典為非常靈活的鍵值對，不具順序性，形式為(key:value)：
  
-      number = {"one":1, "two":2, "three":3}
-      number["two"]             #索引訪問字典中的元素，但索引值是有效的字典索引鍵，非數字
-      number["nine"] = 90       #可用索引來新增元素
+      dict ={}                        # 建立空的dict
+      dict = {"one":1, "two":2, "three":3}
+      del dict["key名稱"]              # 刪除特定的key-value對
+      dict[key]=value                  # 如果key不存在，會增加這組K-V；如果key已存在，會更新這組K-V
+      print("one" in dict)             # 檢查是否有key存在
+      dict.get("two","find nothing")   # 依據key取得值，若無則回傳第2個參數
+      dict["two"]                      # 索引訪問字典中的元素，但索引值是有效的字典索引鍵，非數字
+      dict["nine"] = 90                # 可用索引來新增元素
+      dict.keys()                      # 取得所有key組成的list 
+      dict.valuse()                    # 取得所有value組成的list
     
- □ 集合(Set)。可使用數學集合相關的操作，如下：
+ ■ 集合(Set)。可使用數學集合相關的操作，如下：
  
       prime = {2,3,5,7}
       odds = {1,3,5,7,9}
@@ -76,4 +81,4 @@
       
  □ Python還有其他許多數據結構，可參考內建的collection套件
    
-■Refer to《Python 旋風之旅,[正體中文]Will保哥》的第7章   
+■ Refer to《Python 旋風之旅,[正體中文]Will保哥》的第7章   
